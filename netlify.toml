@@ -1,0 +1,7 @@
+[build]
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/*"
+  status = 200
+  to = "/.netlify/functions/api/:splat"npm install -g netlify-cli
