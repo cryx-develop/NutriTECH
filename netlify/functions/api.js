@@ -10,7 +10,7 @@ app.use(express.json());
 
 // Rutele tale (Atenție: le punem sub un prefix /api/ pentru consistență)
 router.get('/hello', (req, res) => {
-  res.json({ mesaj: "Salutare din Express pe Netlify!" });
+  res.json({ mesaj: "Salutare din Express pe Netlify!, Cristiang" });
 });
 
 router.get('/utilizatori', (req, res) => {
