@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Echilibrul Caloric - NutriTECH</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    p {
+      color: #ffffff !important;
+    }
+    .quiz-option {
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      color: #ffffff !important;
+      text-align: left;
+    }
+    .quiz-option:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateX(5px);
+    }
+    .quiz-option.correct-choice {
+      border: 2px solid #10b981 !important;
+      background: rgba(16, 185, 129, 0.1) !important;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+      color: #10b981 !important;
+      font-weight: bold;
+    }
+    .quiz-option.incorrect-choice {
+      border: 2px solid #ef4444 !important;
+      background: rgba(239, 68, 68, 0.1) !important;
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+      color: #ef4444 !important;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Decorative Glowing Elements -->
+  <div class="glow-container">
+    <div class="glow-bg glow-primary"></div>
+    <div class="glow-bg glow-secondary"></div>
+    <div class="glow-bg glow-third"></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom navbar-dark">
+    <div class="container">
+      <a class="navbar-brand navbar-brand-custom" href="/">
+        <i class="bi bi-heart-pulse-fill text-success"></i> Nutri<span>TECH</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/"><i class="bi bi-house-door-fill me-1"></i> Acasă</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/dashboard"><i class="bi bi-grid-1x2-fill me-1"></i> Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/academy"><i class="bi bi-book-half me-1"></i> Academie</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/quiz"><i class="bi bi-patch-question-fill me-1"></i> Quiz</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content Container -->
+  <div class="container py-5" style="margin-top: 40px;">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <div class="glass-card text-center mb-4">
+          <!-- Icon & Header -->
+          <div class="feature-icon mb-4">
+            <i class="bi bi-lightning-charge-fill"></i>
+          </div>
+          <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill mb-3 border border-success border-opacity-25 fw-bold">PILONUL 1: METABOLISM & ENERGIE</span>
+          <h1 class="display-5 font-title fw-bold mb-4"><span class="gradient-text">Echilibrul Caloric</span></h1>
+          
+          <!-- Detailed content -->
+          <div class="text-start text-bright mt-4" style="line-height: 1.8;">
+            <p class="lead mb-4" style="font-size: 1.15rem; color: #a5f3fc !important;">
+              Echilibrul caloric reprezintă pilonul fundamental al termodinamicii umane. El definește relația matematică și biologică dintre caloriile pe care le consumi prin alimente și caloriile pe care corpul tău le folosește pentru a trăi și a se mișca.
+            </p>
+            <p class="mb-4">
+              În corpul uman, caloriile primite din alimente sunt descompuse prin procese complexe de respirație celulară și convertite în <strong>ATP (Adenozintrifosfat)</strong>, moneda energetică a celulelor. Acest proces guvernează absolut totul: de la contracția musculară din timpul sportului, până la transmiterea impulsurilor nervoase în creier sau simpla menținere a temperaturii interne de 37°C.
+            </p>
+            
+            <h4 class="font-title mt-4 text-success" style="font-size: 1.3rem;"><i class="bi bi-activity me-2"></i> Rata Metabolică Bazală (BMR)</h4>
+            <p class="mb-3">
+              BMR reprezintă numărul de calorii pe care corpul tău le arde într-o stare de repaus complet (somn sau inactivitate totală), doar pentru a menține în funcțiune organele vitale (inima, creierul, plămânii, ficatul, rinichii și sistemul endocrin). 
+            </p>
+            <p class="mb-3">
+              BMR constituie aproximativ <strong>60% - 75%</strong> din consumul tău energetic zilnic. Un aspect interesant este determinat de compoziția corporală: <strong>țesutul muscular scheletic este mult mai activ din punct de vedere metabolic decât țesutul adipos</strong>. Un kilogram de mușchi arde în repaus aproximativ 13 calorii pe zi, în timp ce un kilogram de grăsime consumă doar 4.5 calorii pe zi. Astfel, prin creșterea masei musculare, îți accelerezi în mod natural rata metabolică bazală.
+            </p>
+
+            <h4 class="font-title mt-4 text-success" style="font-size: 1.3rem;"><i class="bi bi-lightning-fill me-2"></i> Consumul Zilnic Total de Energie (TDEE)</h4>
+            <p class="mb-3">
+              TDEE (Total Daily Energy Expenditure) reprezintă volumul total de calorii arse în 24 de ore și este format din 4 componente distincte care interacționează sinergic:
+            </p>
+            <ul class="mb-4" style="color: #ffffff;">
+              <li class="mb-2"><strong>BMR (Basal Metabolic Rate - 60-75%):</strong> Consumul de bază al organelor vitale.</li>
+              <li class="mb-2"><strong>NEAT (Non-Exercise Activity Thermogenesis - 15-20%):</strong> Caloriile arse prin mișcările zilnice involuntare sau non-sportive: mersul pe jos în casă sau spre birou, spălatul vaselor, poziția verticală a corpului, urcatul scărilor și agitația generală. Simplul fapt de a alege să stai în picioare în loc de a sta pe scaun îți poate mări NEAT-ul considerabil.</li>
+              <li class="mb-2"><strong>EAT (Exercise Activity Thermogenesis - 5%):</strong> Caloriile arse intenționat în timpul antrenamentelor la sală, alergării sau altor sporturi structurate. Surprinzător pentru mulți, sportul reprezintă o pondere mică din totalul caloric zilnic, motiv pentru care nu poți "anula" prin sport o alimentație deficitară.</li>
+              <li class="mb-2"><strong>TEF (Thermic Effect of Food - 10%):</strong> Energia necesară pentru a mesteca, digera, absorbi și stoca nutrienții consumați. <strong>Efectul termic variază uimitor în funcție de macronutrient:</strong> proteinele au cel mai mare efect termic (corpul consumă 20-30% din caloriile lor doar pentru a le digera), carbohidrații au 5-10%, iar grăsimile doar 0-3%.</li>
+            </ul>
+
+            <div class="info-explain mt-4 mb-4">
+              <h5 class="font-title mb-2 text-secondary" style="font-size: 1.1rem;"><i class="bi bi-shield-check me-2"></i> Cum controlezi greutatea în mod științific:</h5>
+              <p class="mb-2" style="color: #a5f3fc !important;">
+                <strong>Deficitul Caloric (Slăbire):</strong> Consumi mai puține calorii decât valoarea TDEE-ului tău. Corpul își va lua deficitul arzând depozitele interne de grăsime. Un deficit ideal, sustenabil este de 15-20% din TDEE (~400 kcal/zi), prevenind încetinirea metabolică drastică (adaptarea metabolică).
+              </p>
+              <p class="mb-0" style="color: #a5f3fc !important;">
+                <strong>Surplusul Caloric (Acumulare):</strong> Consumi mai mult decât TDEE. Asociat cu antrenamentul de forță progresiv, un surplus controlat de ~300 kcal oferă mediul anabolic optim pentru sinteza de noi proteine musculare, minimizând acumularea de grăsime.
+              </p>
+            </div>
+          </div>
+
+          <!-- Quiz Section -->
+          <hr class="my-5" style="border-color: var(--glass-border);">
+          <div class="quiz-container text-start p-4 rounded mb-5" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--glass-border);">
+            <h3 class="font-title text-success mb-2"><i class="bi bi-patch-question-fill me-2"></i> Chestionar rapid: Testează-ți cunoștințele</h3>
+            <p class="text-muted small mb-4 quiz-subtitle">Răspunde la 3 întrebări rapide din textul de mai sus pentru a-ți valida atenția!</p>
+            
+            <div id="quiz-box">
+              <!-- Întrebarea 1 -->
+              <div class="question-step" id="q-step-1">
+                <h5 class="mb-3 text-bright">Întrebarea 1: Care este procentul aproximativ reprezentat de Rata Metabolică Bazală (BMR) din consumul energetic zilnic total?</h5>
+                <div class="d-flex flex-column gap-2">
+                  <button class="btn quiz-option py-2 px-3 w-100" data-correct="false">A) 10% - 15%</button>
+                  <button class="btn quiz-option py-2 px-3 w-100" data-correct="false">B) 30% - 45%</button>
+                  <button class="btn quiz-option py-2 px-3 w-100" data-correct="true">C) 60% - 75%</button>
+                </div>
+              </div>
+
+              <!-- Întrebarea 2 -->
+              <div class="question-step d-none" id="q-step-2">
+                <h5 class="mb-3 text-bright">Întrebarea 2: Care componentă a TDEE se referă la caloriile arse prin mișcări zilnice non-sportive (de exemplu, spălatul vaselor sau mersul în casă)?</h5>
+                <div class="d-flex flex-column gap-2">
+                  <button class="btn quiz-option py-2 px-3 w-100" data-correct="false">A) EAT (Exercise Activity Thermogenesis)</button>
+                  <button class="btn quiz-option py-2 px-3 w-100" data-correct="true">B) NEAT (Non-Exercise Activity Thermogenesis)</button>
+                  <button class="btn quiz-option py-2 px-3 w-100" data-correct="false">C) TEF (Thermic Effect of Food)</button>
+                </div>
+              </div>
+
+              <!-- Întrebarea 3 -->
+              <div class="question-step d-none" id="q-step-3">
+                <h5 class="mb-3 text-bright">Întrebarea 3: Care macronutrient are cel mai mare efect termic (TEF), determinând organismul să consume 20-30% din caloriile sale doar pentru a-l digera?</h5>
+                <div class="d-flex flex-column gap-2">
+                  <button class="btn quiz-option py-2 px-3 w-100" data-correct="false">A) Grăsimile</button>
+                  <button class="btn quiz-option py-2 px-3 w-100" data-correct="false">B) Carbohidrații</button>
+                  <button class="btn quiz-option py-2 px-3 w-100" data-correct="true">C) Proteinele</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ecran de Rezultat -->
+            <div id="quiz-result" class="text-center d-none py-4">
+              <h4 class="font-title text-success mb-2"><i class="bi bi-trophy-fill me-2"></i> Chestionar Finalizat!</h4>
+              <p class="lead text-bright my-3" id="quiz-score-text">Ai răspuns corect la 0 din 3 întrebări.</p>
+              <div class="progress mb-4" style="height: 10px; background: rgba(255,255,255,0.05); border-radius: 5px;">
+                <div class="progress-bar bg-success" id="quiz-progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <button class="btn btn-primary-custom" id="btn-restart-quiz"><i class="bi bi-arrow-clockwise me-2"></i> Reîncepe Chestionarul</button>
+            </div>
+          </div>
+
+          <!-- Back Button -->
+          <div class="mt-5 d-flex justify-content-center gap-3">
+            <a href="/" class="btn btn-outline-custom btn-lg"><i class="bi bi-arrow-left me-2"></i> Înapoi la Acasă</a>
+            <a href="/academy" class="btn btn-primary-custom btn-lg"><i class="bi bi-book me-2"></i> Mergi la Academie</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center text-muted mt-5">
+    <div class="footer-container">
+      <p class="mb-0">&copy; 2026 NutriTECH. Dezvoltat ca software educațional și asistent personal de nutriție.</p>
+    </div>
+  </footer>
+
+  <!-- jQuery & Quiz Engine Script -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    $(document).ready(function() {
+      let currentStep = 1;
+      let correctAnswers = 0;
+      let canAnswer = true;
+
+      // Click option logic
+      $('.quiz-option').on('click', function() {
+        if (!canAnswer) return;
+        canAnswer = false;
+
+        const isCorrect = $(this).attr('data-correct') === 'true';
+        const currentQuestionBox = $(this).closest('.question-step');
+
+        if (isCorrect) {
+          $(this).addClass('correct-choice');
+          correctAnswers++;
+        } else {
+          $(this).addClass('incorrect-choice');
+          // Highlight the correct option in green as feedback
+          currentQuestionBox.find('[data-correct="true"]').addClass('correct-choice');
+        }
+
+        // Delay before moving to the next step
+        setTimeout(function() {
+          currentQuestionBox.addClass('d-none');
+          currentStep++;
+
+          if (currentStep <= 3) {
+            $(`#q-step-${currentStep}`).removeClass('d-none');
+            canAnswer = true;
+          } else {
+            // End of Quiz
+            $('#quiz-box').addClass('d-none');
+            $('#quiz-result').removeClass('d-none');
+            
+            // Set text & score bar
+            $('#quiz-score-text').text(`Ai răspuns corect la ${correctAnswers} din 3 întrebări.`);
+            const percentage = (correctAnswers / 3) * 100;
+            $('#quiz-progress-bar').css('width', `${percentage}%`).attr('aria-valuenow', percentage);
+          }
+        }, 1500);
+      });
+
+      // Restart Quiz logic
+      $('#btn-restart-quiz').on('click', function() {
+        currentStep = 1;
+        correctAnswers = 0;
+        canAnswer = true;
+
+        // Reset classes
+        $('.quiz-option').removeClass('correct-choice incorrect-choice');
+        
+        // Show box and first step, hide results
+        $('#quiz-box').removeClass('d-none');
+        $('.question-step').addClass('d-none');
+        $('#q-step-1').removeClass('d-none');
+        $('#quiz-result').addClass('d-none');
+      });
+    });
+  </script>
+</body>
+</html>

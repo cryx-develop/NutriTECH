@@ -1,1 +1,46 @@
-hello world
+
+
+Accounts
+ - id,
+ - email
+ - password
+ - name
+ - age
+
+
+Quiz
+- id
+- account_id
+
+quiz_questions
+ quiz_id
+ question_id
+
+
+
+Questions
+ - id
+ - title
+ 
+
+
+Answers
+ - id
+
+
+User
+ |
+
+ Frontend
+    - JS, ReactJS, Angular, etc  
+    - pages, components,etc
+|
+
+ Backend
+    - java| PHP| C#, etc
+    - business logic (compute quiz percentage,etc; save info to db; sends requests to third-party apps )
+
+|
+
+ Database
+
