@@ -1,7 +1,19 @@
+# Netlify configuration
 [build]
   functions = "netlify/functions"
 
+  # Folder containing the static website
+  publish = "public"
+
+
 [[redirects]]
+  # Route all /api requests to the Express Netlify Function
   from = "/api/*"
+  status = 200
+  to = "/.netlify/functions/api/:splat"
+
+[[redirects]]
+  # Route all /views requests to the Express Netlify Function
+  from = "/views/*"
   status = 200
   to = "/.netlify/functions/api/:splat"
