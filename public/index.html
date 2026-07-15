@@ -446,6 +446,13 @@
                   id="objectiveText">Slăbire</strong> în siguranță.</p>
             </div>
 
+            <div class="mb-4">
+              <button type="button" class="btn btn-outline-custom w-100" data-bs-toggle="modal" data-bs-target="#formulaModal">
+                <i class="bi bi-question-circle me-2"></i> Cum s-a calculat?
+              </button>
+              <p class="text-muted small mt-2 mb-0 index-paragraph">Vezi formula matematică reală, PAL-ul și sensul fiecărui termen pentru datele tale.</p>
+            </div>
+
             <!-- Macros Preview -->
             <h4 class="font-title text-start mb-3" style="font-size: 1.1rem;"><i
                 class="bi bi-pie-chart me-2 text-success"></i> Distribuție Macronutrienți</h4>
@@ -480,6 +487,77 @@
       </div>
     </div>
   </section>
+
+  <div class="modal fade" id="formulaModal" tabindex="-1" aria-labelledby="formulaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content formula-modal">
+        <div class="modal-header border-0">
+          <div>
+            <h3 class="modal-title font-title mb-1" id="formulaModalLabel">Cum s-a calculat?</h3>
+            <p class="small mb-0" style="color: #FFFFFF;">Formula reală aplicată în timp real pe datele tale.</p>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Închide"></button>
+        </div>
+        <div class="modal-body">
+          <div class="formula-highlight" id="formulaSummary">
+            Completează înălțimea, greutatea și vârsta pentru a vedea calculul exact.
+          </div>
+
+          <div class="row g-3 mt-1">
+            <div class="col-md-6">
+              <div class="formula-card">
+                <div class="text-success small text-uppercase fw-bold">Formula BMR</div>
+                <div class="formula-math mt-2" id="formulaBmrLine">—</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="formula-card">
+                <div class="text-secondary small text-uppercase fw-bold">Formula TDEE</div>
+                <div class="formula-math mt-2" id="formulaTdeeLine">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <h5 class="font-title mb-3">Ce înseamnă factorul PAL?</h5>
+            <p class="mb-3" id="palExplanationText" style="color: #FFFFFF;">PAL transformă BMR-ul în consumul real zilnic, reflectând activitatea ta.</p>
+            <div class="row g-2">
+              <div class="col-6 col-md-4">
+                <div class="pal-card">
+                  <div class="fw-bold">1.2</div>
+                  <div class="small" style="color: #FFFFFF;">Sedentar</div>
+                </div>
+              </div>
+              <div class="col-6 col-md-4">
+                <div class="pal-card">
+                  <div class="fw-bold">1.375</div>
+                  <div class="small" style="color: #FFFFFF;">Ușor</div>
+                </div>
+              </div>
+              <div class="col-6 col-md-4">
+                <div class="pal-card">
+                  <div class="fw-bold">1.55</div>
+                  <div class="small" style="color: #FFFFFF;">Moderat</div>
+                </div>
+              </div>
+              <div class="col-6 col-md-4">
+                <div class="pal-card">
+                  <div class="fw-bold">1.725</div>
+                  <div class="small" style="color: #FFFFFF;">Intens</div>
+                </div>
+              </div>
+              <div class="col-6 col-md-4">
+                <div class="pal-card">
+                  <div class="fw-bold">1.9</div>
+                  <div class="small" style="color: #FFFFFF;">Extrem</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="text-center text-muted">
@@ -519,14 +597,62 @@
       updateCalculator();
     }
 
-    // 2. Logica de calcul dinamic în frontend (Realtime feedback!)
-    function updateCalculator() {
+    function getCurrentProfileData() {
       const height = parseFloat(document.getElementById('height').value) || 0;
       const weight = parseFloat(document.getElementById('weight').value) || 0;
       const age = parseInt(document.getElementById('age').value) || 0;
       const gender = document.querySelector('input[name="gender"]:checked').value;
       const activity = parseFloat(document.getElementById('activity').value) || 1.2;
       const objective = document.getElementById('objective').value;
+      return { height, weight, age, gender, activity, objective };
+    }
+
+    function updateFormulaModal() {
+      const { height, weight, age, gender, activity, objective } = getCurrentProfileData();
+      const formulaSummary = document.getElementById('formulaSummary');
+      const formulaBmrLine = document.getElementById('formulaBmrLine');
+      const formulaTdeeLine = document.getElementById('formulaTdeeLine');
+      const palExplanationText = document.getElementById('palExplanationText');
+
+      if (!height || !weight || !age) {
+        formulaSummary.innerHTML = '<strong>Completează datele tale</strong> pentru a vedea formula exactă aplicată în timp real.';
+        formulaBmrLine.innerText = '—';
+        formulaTdeeLine.innerText = '—';
+        palExplanationText.innerText = 'PAL transformă BMR-ul în consumul real zilnic, reflectând activitatea ta. Odată ce completezi datele, vei vedea impactul acestuia imediat.';
+        return;
+      }
+
+      let bmr = 0;
+      const offset = gender === 'male' ? '+ 5' : '- 161';
+      if (gender === 'male') {
+        bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+      } else {
+        bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+      }
+
+      const tdee = bmr * activity;
+      let target = tdee;
+      let objectiveLabel = 'Menținere (Echilibru)';
+      if (objective === 'slăbire') {
+        target = tdee - 400;
+        objectiveLabel = 'Slăbire (Deficit)';
+      } else if (objective === 'acumulare') {
+        target = tdee + 300;
+        objectiveLabel = 'Acumulare (Surplus)';
+      }
+
+      const minLimit = gender === 'male' ? 1500 : 1200;
+      if (target < minLimit) target = minLimit;
+
+      formulaSummary.innerHTML = `<strong>Formula Mifflin-St Jeor</strong> pentru ${gender === 'male' ? 'bărbați' : 'femei'}: <br> BMR = (10 × ${weight.toFixed(1)} kg) + (6.25 × ${height} cm) - (5 × ${age} ani) ${offset} = <strong>${bmr.toFixed(1)} kcal</strong>`;
+      formulaBmrLine.innerText = `BMR = (10 × ${weight.toFixed(1)}) + (6.25 × ${height}) - (5 × ${age}) ${offset} = ${bmr.toFixed(1)} kcal`;
+      formulaTdeeLine.innerText = `TDEE = BMR × PAL = ${bmr.toFixed(1)} × ${activity.toFixed(2)} = ${tdee.toFixed(1)} kcal`;
+      palExplanationText.innerHTML = `PAL este factorul de activitate. El înmulțește BMR-ul cu energia necesară pentru mișcare, digestie și activități zilnice. Cu cât PAL-ul este mai mare, cu atât necesarul caloric zilnic crește. Pentru obiectivul <strong>${objectiveLabel}</strong>, rezultatul țintă este <strong>${Math.round(target)} kcal/zi</strong>.`;
+    }
+
+    // 2. Logica de calcul dinamic în frontend (Realtime feedback!)
+    function updateCalculator() {
+      const { height, weight, age, gender, activity, objective } = getCurrentProfileData();
 
       if (!height || !weight || !age) {
         return; // Date incomplete pentru calcul
@@ -583,6 +709,8 @@
       document.getElementById('proteinPreview').innerText = `${proteinG}g`;
       document.getElementById('carbPreview').innerText = `${carbG}g`;
       document.getElementById('fatPreview').innerText = `${fatG}g`;
+
+      updateFormulaModal();
     }
 
     // Atașează evenimentele de schimbare pentru actualizare instantă

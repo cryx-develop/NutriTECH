@@ -326,6 +326,45 @@ h6 {
   color: #a5f3fc;
 }
 
+.formula-modal {
+  background: linear-gradient(135deg, rgba(11, 15, 25, 0.98), rgba(17, 24, 39, 0.95));
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  color: var(--text-main);
+}
+
+.formula-highlight {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 14px;
+  padding: 16px 18px;
+  line-height: 1.7;
+  color: #FFFFFF;
+}
+
+.formula-card,
+.pal-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 14px;
+  color: #FFFFFF;
+}
+
+.formula-math {
+  font-size: 0.95rem;
+  color: var(--text-bright);
+  line-height: 1.6;
+}
+
+.pal-card {
+  text-align: center;
+  min-height: 76px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 /* Quiz Section Design */
 .quiz-option {
   background: rgba(255, 255, 255, 0.03);
