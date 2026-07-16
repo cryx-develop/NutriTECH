@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profilul Meu - NutriTECH</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="glow-container">
+    <div class="glow-bg glow-primary"></div>
+    <div class="glow-bg glow-secondary"></div>
+    <div class="glow-bg glow-third"></div>
+  </div>
+
+  <nav class="navbar navbar-expand-lg navbar-custom navbar-dark">
+    <div class="container">
+      <a class="navbar-brand navbar-brand-custom" href="/">
+        <i class="bi bi-heart-pulse-fill text-success"></i> Nutri<span>TECH</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto" id="navAuthLinks">
+          <li class="nav-item"><a class="nav-link nav-link-custom" href="/"><i class="bi bi-house-door-fill me-1"></i> Acasă</a></li>
+          <li class="nav-item"><a class="nav-link nav-link-custom" href="/views/dashboard"><i class="bi bi-grid-1x2-fill me-1"></i> Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link nav-link-custom" href="/views/academy"><i class="bi bi-book-half me-1"></i> Academie</a></li>
+          <li class="nav-item"><a class="nav-link nav-link-custom" href="/views/quiz"><i class="bi bi-patch-question-fill me-1"></i> Quiz</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-5" style="margin-top: 24px;">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="glass-card p-4 h-100">
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <div class="feature-icon" style="width: 54px; height: 54px; font-size: 1.3rem;">
+              <i class="bi bi-person-circle"></i>
+            </div>
+            <div>
+              <h1 class="font-title h4 mb-1">Profilul meu</h1>
+              <p class="text-muted mb-0">Datele tale de cont, profil și progres.</p>
+            </div>
+          </div>
+          <div id="profileSummary" class="d-grid gap-3"></div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="glass-card p-4 h-100">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="font-title h4 mb-0">Datele profilului</h2>
+            <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25">Salvate automat</span>
+          </div>
+          <div id="profileDetails" class="row g-3"></div>
+          <hr class="border-light-subtle my-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="font-title h5 mb-0">Badges și quiz-uri</h3>
+          </div>
+          <div id="profileBadges" class="d-flex flex-wrap gap-2 mb-4"></div>
+          <div id="quizHistory" class="d-grid gap-2"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/app.js"></script>
+  <script>
+    async function renderProfile() {
+      const summaryEl = document.getElementById('profileSummary');
+      const detailsEl = document.getElementById('profileDetails');
+      const badgesEl = document.getElementById('profileBadges');
+      const historyEl = document.getElementById('quizHistory');
+
+      if (!window.NutriTECH?.isAuthenticated()) {
+        summaryEl.innerHTML = '<div class="alert alert-warning">Conectează-te pentru a-ți vedea profilul și progresul.</div>';
+        detailsEl.innerHTML = '';
+        badgesEl.innerHTML = '';
+        historyEl.innerHTML = '';
+        return;
+      }
+
+      try {
+        const data = await window.NutriTECH.apiRequest('/me');
+        const user = data?.user || {};
+        const profile = data?.profile || {};
+        const badges = data?.badges || [];
+        const quizResults = data?.quizResults || [];
+
+        summaryEl.innerHTML = `
+          <div class="p-3 rounded" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);">
+            <div class="fw-bold text-bright">${window.NutriTECH.getDisplayName(user)}</div>
+            <div class="text-muted small">${user.email || '—'}</div>
+          </div>
+          <div class="p-3 rounded" style="background: rgba(6, 182, 212, 0.06); border: 1px solid rgba(6, 182, 212, 0.15);">
+            <div class="text-secondary small mb-1">Obiectiv</div>
+            <div class="fw-bold text-secondary">${profile.objective || 'Nu este setat'}</div>
+          </div>
+          <div class="p-3 rounded" style="background: rgba(99, 102, 241, 0.06); border: 1px solid rgba(99, 102, 241, 0.15);">
+            <div class="text-accent small mb-1">Calorii țintă</div>
+            <div class="fw-bold text-accent">${profile.target_calories || '—'} kcal</div>
+          </div>
+        `;
+
+        detailsEl.innerHTML = `
+          <div class="col-md-6">
+            <label class="form-label form-label-custom">Înălțime</label>
+            <div class="form-control form-control-custom">${profile.height ? `${profile.height} cm` : '—'}</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label form-label-custom">Greutate</label>
+            <div class="form-control form-control-custom">${profile.weight ? `${profile.weight} kg` : '—'}</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label form-label-custom">Greutate țintă</label>
+            <div class="form-control form-control-custom">${profile.target_weight ? `${profile.target_weight} kg` : '—'}</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label form-label-custom">Vârsta</label>
+            <div class="form-control form-control-custom">${profile.age || '—'}</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label form-label-custom">Sex</label>
+            <div class="form-control form-control-custom">${profile.gender || '—'}</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label form-label-custom">Nivel activitate</label>
+            <div class="form-control form-control-custom">${profile.activity_level || '—'}</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label form-label-custom">BMR</label>
+            <div class="form-control form-control-custom">${profile.bmr || '—'} kcal</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label form-label-custom">TDEE</label>
+            <div class="form-control form-control-custom">${profile.tdee || '—'} kcal</div>
+          </div>
+        `;
+
+        badgesEl.innerHTML = badges.length
+          ? badges.map((badge) => `<span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-3 py-2">${badge.badge_name || badge.category}</span>`).join('')
+          : '<div class="text-muted">Nu ai încă badge-uri. Completează quiz-uri pentru a le debloca.</div>';
+
+        historyEl.innerHTML = quizResults.length
+          ? quizResults.map((result) => `
+            <div class="p-3 rounded" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);">
+              <div class="d-flex justify-content-between align-items-center">
+                <strong>${result.category}</strong>
+                <span class="badge ${result.passed ? 'bg-success' : 'bg-warning text-dark'}">${result.passed ? 'Promovat' : 'Necesită reluare'}</span>
+              </div>
+              <div class="small text-muted mt-1">Scor ${result.score}/${result.total_questions} • ${new Date(result.completed_at).toLocaleString('ro-RO')}</div>
+            </div>`).join('')
+          : '<div class="text-muted">Nu ai încă rezultate la quiz-uri.</div>';
+      } catch (error) {
+        summaryEl.innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', renderProfile);
+  </script>
+</body>
+</html>

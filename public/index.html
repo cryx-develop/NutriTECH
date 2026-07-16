@@ -571,6 +571,7 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/app.js"></script>
 
   <!-- Interactive JavaScript Engine -->
   <script>
@@ -746,8 +747,26 @@
         meals_per_day
       });
 
+      const profilePayload = {
+        height: parseFloat(height),
+        weight: parseFloat(weight),
+        target_weight: parseFloat(target_weight),
+        age: parseInt(age, 10),
+        gender,
+        activity_level: parseFloat(activity_level),
+        objective,
+        meals_per_day: parseInt(meals_per_day, 10),
+        bmr: Math.round((gender === 'male' ? (10 * weight) + (6.25 * height) - (5 * age) + 5 : (10 * weight) + (6.25 * height) - (5 * age) - 161)),
+        tdee: Math.round((gender === 'male' ? (10 * weight) + (6.25 * height) - (5 * age) + 5 : (10 * weight) + (6.25 * height) - (5 * age) - 161) * parseFloat(activity_level)),
+        target_calories: Math.round((gender === 'male' ? (10 * weight) + (6.25 * height) - (5 * age) + 5 : (10 * weight) + (6.25 * height) - (5 * age) - 161) * parseFloat(activity_level) - (objective === 'slăbire' ? 400 : objective === 'acumulare' ? -300 : 0)),
+        protein_goal: Math.round(parseFloat(weight) * 2),
+        carbs_goal: Math.round(((gender === 'male' ? (10 * weight) + (6.25 * height) - (5 * age) + 5 : (10 * weight) + (6.25 * height) - (5 * age) - 161) * parseFloat(activity_level) - (objective === 'slăbire' ? 400 : objective === 'acumulare' ? -300 : 0)) * 0.4 / 4),
+        fat_goal: Math.round(((gender === 'male' ? (10 * weight) + (6.25 * height) - (5 * age) + 5 : (10 * weight) + (6.25 * height) - (5 * age) - 161) * parseFloat(activity_level) - (objective === 'slăbire' ? 400 : objective === 'acumulare' ? -300 : 0)) * 0.25 / 9)
+      };
+
+      window.NutriTECH.saveProfile(profilePayload).catch(() => {});
       alert('Profilul tău metabolic a fost calculat cu succes! Te redirecționăm către Dashboard...');
-      window.location.href = '/dashboard?' + queryParams.toString();
+      window.location.href = '/views/dashboard?' + queryParams.toString();
     });
 
     // Inițializare

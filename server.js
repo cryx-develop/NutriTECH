@@ -1,64 +1,50 @@
-// const express = require('express');
-// const path = require('path');
+const express = require('express');
+const path = require('path');
+const apiRouter = require('./routes/api');
+const { initializeDatabase } = require('./lib/db');
 
-// const app = express();
-// const PORT = process.env.PORT || 3000;
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-// // Body Parsers pentru formulare și JSON
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// // Servirea fișierelor statice (CSS, JS, Imagini)
-// app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
-// // --- RUTE PAGINI HTML (Toate sunt publice acum) ---
+app.get('/views/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'dashboard.html'));
+});
 
-// // 1. Pagina principală
-// app.get('/', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'views/index.html'));
-// });
+app.get('/views/academy', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'academy.html'));
+});
 
-// // Rute Piloni Educaționali
-// app.get('/pilon/echilibru-caloric', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'views/piloni/echilibru-caloric.html'));
-// });
+app.get('/views/quiz', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'quiz.html'));
+});
 
-// app.get('/pilon/macronutrienti', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'views/piloni/macronutrienti.html'));
-// });
+app.get('/views/profile', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'profile.html'));
+});
 
-// app.get('/pilon/somn-cortizol', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'views/piloni/somn-cortizol.html'));
-// });
+app.get('/views/piloni/:page', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'piloni', `${req.params.page}.html`));
+});
 
-// app.get('/pilon/hidratare', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'views/piloni/hidratare.html'));
-// });
+app.use('/api', apiRouter);
 
-// // 2. Pagina Dashboard de Tracking (Fără autentificare obligatorie)
-// app.get('/dashboard', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'views/dashboard.html'));
-// });
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
+});
 
-// // 3. Pagina NutriTECH Academy
-// app.get('/academy', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'views/academy.html'));
-// });
-
-// // 4. Pagina Quizzes
-// app.get('/quiz', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'views/quiz.html'));
-// });
-
-// // Fallback rute inexistente
-// app.use((req, res) => {
-//   res.status(404).sendFile(path.join(__dirname, 'views/404.html'));
-// });
-
-// // Lansare server
-// app.listen(PORT, () => {
-//   console.log(`=============================================================`);
-//   console.log(`  NutriTECH - Aplicația rulează cu succes local!`);
-//   console.log(`  Deschide în browser: http://localhost:${PORT}`);
-//   console.log(`=============================================================`);
-// });
+initializeDatabase().then(() => {
+  app.listen(PORT, () => {
+    console.log(`NutriTECH server started on http://localhost:${PORT}`);
+  });
+}).catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

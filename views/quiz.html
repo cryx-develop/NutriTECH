@@ -196,6 +196,7 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/app.js"></script>
 
   <!-- Quiz Engine Javascript -->
   <script>
@@ -443,13 +444,12 @@
     }
 
     // 2. Start Quiz
-    function startQuiz(category) {
+    async function startQuiz(category) {
       currentCategory = category;
-      currentQuestions = questionsDatabase[category];
+      currentQuestions = [];
       currentQuestionIndex = 0;
       score = 0;
       
-      // Setează label categorie
       const categoryNames = {
         calorii: 'Calorii & BMR',
         macronutrienti: 'Macronutrienții',
@@ -457,11 +457,22 @@
         somn: 'Somn & Hormoni'
       };
       document.getElementById('quizCategoryLabel').innerText = categoryNames[category].toUpperCase();
+      document.getElementById('quizProgressLabel').innerText = 'Se încarcă întrebările...';
 
-      // Schimbă ecranele
       document.getElementById('startScreen').classList.add('d-none');
       document.getElementById('quizScreen').classList.remove('d-none');
       document.getElementById('finishScreen').classList.add('d-none');
+
+      try {
+        const loaded = await window.NutriTECH.apiRequest(`/quiz-questions/${category}`);
+        if (Array.isArray(loaded) && loaded.length > 0) {
+          currentQuestions = loaded;
+        } else {
+          currentQuestions = questionsDatabase[category] || [];
+        }
+      } catch (error) {
+        currentQuestions = questionsDatabase[category] || [];
+      }
 
       loadQuestion();
     }
@@ -469,6 +480,10 @@
     // 3. Încarcă întrebarea curentă
     function loadQuestion() {
       const q = currentQuestions[currentQuestionIndex];
+      if (!q) {
+        document.getElementById('questionText').innerText = 'Nu există întrebări disponibile momentan.';
+        return;
+      }
       selectedOptionIndex = null;
 
       // Update Labels
@@ -503,7 +518,7 @@
 
       selectedOptionIndex = index;
       const q = currentQuestions[currentQuestionIndex];
-      const correctIndex = q.correct;
+      const correctIndex = q.correctIndex ?? q.correct;
 
       const selectedEl = document.getElementById(`opt-${index}`);
       const correctEl = document.getElementById(`opt-${correctIndex}`);
@@ -559,6 +574,15 @@
             total_questions: currentQuestions.length
           };
         }
+
+        const passed = score / currentQuestions.length >= 0.8;
+        window.NutriTECH.saveQuizResult({
+          category: currentCategory,
+          score,
+          totalQuestions: currentQuestions.length,
+          passed,
+          answers: []
+        }).catch(() => {});
 
         // Reîncarcă badge-urile
         loadBadgesProgress();
