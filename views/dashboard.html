@@ -265,17 +265,7 @@
       </div>
     </div>
 
-    <!-- Row 3: History Line Chart (Weekly progress) -->
-    <div class="row g-4 mb-4">
-      <div class="col-12">
-        <div class="glass-card">
-          <h3 class="font-title mb-4 text-success"><i class="bi bi-graph-up me-2"></i> Progres Caloric Săptămânal</h3>
-          <div style="height: 300px; position: relative;">
-            <canvas id="progressLineChart"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
+
 
     <!-- Row 4: Daily Log Details (Tables with logs to inspect/delete) -->
     <div class="row g-4">
@@ -754,107 +744,7 @@
       }
     }
 
-    // Încarcă și inițializează graficul de istoric pe 7 zile în mod dinamic
-    function loadHistoryChart() {
-      const calculated = calculateNutrition(sessionState.profile);
-      
-      // Obținem consumul activ de astăzi
-      let consumedCalories = 0;
-      let burnedCalories = 0;
-      sessionState.foods.forEach(f => consumedCalories += f.calories);
-      sessionState.exercises.forEach(e => burnedCalories += e.calories_burned);
 
-      // Generăm date simulate frumoase adaptate la profilul utilizatorului
-      const labels = [];
-      const consumed = [];
-      const burned = [];
-
-      for (let i = 6; i >= 0; i--) {
-        const d = new Date();
-        d.setDate(d.getDate() - i);
-        const dateLabel = d.toLocaleDateString('ro-RO', { month: '2-digit', day: '2-digit' });
-        labels.push(dateLabel);
-
-        if (i === 0) {
-          // Astăzi (real din sesiune)
-          consumed.push(Math.round(consumedCalories));
-          burned.push(Math.round(burnedCalories));
-        } else {
-          // Zilele trecute (simulare adaptată la caloriile țintă)
-          const randFactor = 0.85 + Math.random() * 0.22; // Între 85% și 107% din țintă
-          consumed.push(Math.round(calculated.calories * randFactor));
-          burned.push(Math.round(200 + Math.random() * 250)); // Simulat 200-450 kcal
-        }
-      }
-
-      const ctx = document.getElementById('progressLineChart').getContext('2d');
-
-      if (historyChartInstance) {
-        historyChartInstance.data.labels = labels;
-        historyChartInstance.data.datasets[0].data = consumed;
-        historyChartInstance.data.datasets[1].data = burned;
-        historyChartInstance.update();
-      } else {
-        historyChartInstance = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: labels,
-            datasets: [
-              {
-                label: 'Calorii Consumate',
-                data: consumed,
-                borderColor: '#10b981',
-                backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                fill: true,
-                tension: 0.3,
-                borderWidth: 3
-              },
-              {
-                label: 'Calorii Arse (Sport)',
-                data: burned,
-                borderColor: '#06b6d4',
-                backgroundColor: 'rgba(6, 182, 212, 0.05)',
-                fill: true,
-                tension: 0.3,
-                borderWidth: 2
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                labels: {
-                  color: '#9ca3af',
-                  font: {
-                    family: 'Outfit'
-                  }
-                }
-              }
-            },
-            scales: {
-              x: {
-                grid: {
-                  color: 'rgba(255,255,255,0.05)'
-                },
-                ticks: {
-                  color: '#9ca3af'
-                }
-              },
-              y: {
-                grid: {
-                  color: 'rgba(255,255,255,0.05)'
-                },
-                ticks: {
-                  color: '#9ca3af'
-                }
-              }
-            }
-          }
-        });
-      }
-    }
 
     // Funcții API simulate local (în memorie)
 
@@ -929,9 +819,9 @@
       document.getElementById('foodWeight').value = '100';
       
       loadDashboardData();
-      loadHistoryChart();
       persistDashboardState();
     });
+
 
     // 4. Quick Add Aliment
     function quickAddFood(name, calories, protein, carbs, fat, weight_g) {
@@ -970,9 +860,9 @@
       document.getElementById('exerciseCalories').value = '';
       
       loadDashboardData();
-      loadHistoryChart();
       persistDashboardState();
     });
+
 
     // 6. Quick Add Exercițiu
     function quickAddExercise(activity_type, duration_min, calories_burned) {
@@ -1008,8 +898,8 @@
     // Inițializare Dashboard la încărcare
     setCurrentDate();
     loadDashboardData();
-    loadHistoryChart();
     persistDashboardState();
   </script>
 </body>
 </html>
+
