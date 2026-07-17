@@ -44,7 +44,7 @@
             </div>
             <div>
               <h1 class="font-title h4 mb-1">Profilul meu</h1>
-              <p class="text-muted mb-0">Datele tale de cont, profil și progres.</p>
+              <p class="mb-0" style="color: #ffffff;">Datele tale de cont, profil și progres.</p>
             </div>
           </div>
           <div id="profileSummary" class="d-grid gap-3"></div>
@@ -96,7 +96,7 @@
         summaryEl.innerHTML = `
           <div class="p-3 rounded" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);">
             <div class="fw-bold text-bright">${window.NutriTECH.getDisplayName(user)}</div>
-            <div class="text-muted small">${user.email || '—'}</div>
+            <div class="small" style="color: #ffffff;">${user.email || '—'}</div>
           </div>
           <div class="p-3 rounded" style="background: rgba(6, 182, 212, 0.06); border: 1px solid rgba(6, 182, 212, 0.15);">
             <div class="text-secondary small mb-1">Obiectiv</div>
@@ -145,7 +145,7 @@
 
         badgesEl.innerHTML = badges.length
           ? badges.map((badge) => `<span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-3 py-2">${badge.badge_name || badge.category}</span>`).join('')
-          : '<div class="text-muted">Nu ai încă badge-uri. Completează quiz-uri pentru a le debloca.</div>';
+          : '<div style="color: #ffffff;">Nu ai încă badge-uri. Completează quiz-uri pentru a le debloca.</div>';
 
         historyEl.innerHTML = quizResults.length
           ? quizResults.map((result) => `
@@ -156,7 +156,7 @@
               </div>
               <div class="small text-muted mt-1">Scor ${result.score}/${result.total_questions} • ${new Date(result.completed_at).toLocaleString('ro-RO')}</div>
             </div>`).join('')
-          : '<div class="text-muted">Nu ai încă rezultate la quiz-uri.</div>';
+          : '<div style="color: #ffffff;">Nu ai încă rezultate la quiz-uri.</div>';
       } catch (error) {
         summaryEl.innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
       }
