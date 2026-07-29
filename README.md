@@ -153,7 +153,7 @@ Acest proiect este licențiat sub MIT License.
 
 📄 Informații legate de crearea proiectului
 
-Țin să menționez faptul că fiind elev la profil "Filologie" nu am foarte multă experiență în programare, de aceea pe parcursul realizării proiectului am fost ajutat de Inteligența Artificială (modelele de la google gemini si blackbox AI), însă idea și toate funcțiile au fost gândite integral de mine. Proiectul a fost inițial lansat local, așa cum a fost prezentat la etapa Județeană a Olimpiadei InfoEducație, iar mai apoi am făcut modificări pentru a putea fi urcat pe netlify și a avea o baza de date online care eeste tot cea de la netlify (ProgreSQL).
+Țin să menționez că pe parcursul realizării proiectului am fost ajutat de Inteligența Artificială (modelele de la google gemini si blackbox AI), însă idea și toate funcțiile au fost gândite integral de mine. Proiectul a fost inițial lansat local, așa cum a fost prezentat la etapa Județeană a Olimpiadei InfoEducație, iar mai apoi am făcut modificări pentru a putea fi urcat pe netlify și a avea o baza de date online care eeste tot cea de la netlify (ProgreSQL).
 
 ✍️ Autor
 
